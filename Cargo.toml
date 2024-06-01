@@ -1,0 +1,37 @@
+[package]
+name = "chinesebroad"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bincode = "1.3"
+rand = "0.8"
+chessai = "0.1.8"
+winit = { version = "0.28", default-features = false }
+image = { version = "0.24", default-features = false }
+
+[dependencies.bevy]
+version = "0.11"
+features = [
+    "dynamic_linking",
+    "mp3",
+]
+
+[features]
+dev = [
+    "bevy/bevy_dylib",
+]
+
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[target.x86_64-pc-windows-msvc]
+linker = "rust-lld.exe"
+rustflags = ["-Zshare-generics=y"]
